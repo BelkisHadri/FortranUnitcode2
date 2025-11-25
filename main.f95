@@ -16,6 +16,23 @@ program Uvindexunit2code
     print *, ""
     print *, "Here is the start of the times:"
 
+!if statments for the value from the file for the advice after reading the file  
+if (uv <= 2) then
+            risk = "Low"
+            advice = "You don’t need any protection but it is always recommended to wear sunscreen!"
+        else if (uv <= 5) then
+            risk = "Moderate"
+            advice = "Moderate UV means you need to wear sunscreen. Stay safe!"
+        else if (uv <= 7) then
+            risk = "High"
+            advice = "Be careful outside. UV is high so make sure to apply sunscreen, wear a hat, stay in shade"
+        else if (uv <= 10) then
+            risk = "Very High"
+            advice = "Very High! Avoid direct sun, wear protective gear."
+        else
+            risk = "Extreme"
+            advice = "UV is very high ! Avoid direct sunlight, wear sunscreen and hat."
+        end if
 end program Uvindexunit2code
 
 
