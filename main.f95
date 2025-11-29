@@ -5,6 +5,7 @@ program Uvindexunit2code
     integer :: uv, io
     character(len=20) :: time, risk
     character(len=100)advice
+      character(len=50) :: header ! this is for the ode to skip the line without data
   !welcome message to what the code is  
 !the &, is because the lines that were printed were too long 
     print *, "Welcome to the UV helper. I will help you know the UV index for the times of the day,", &
@@ -23,10 +24,14 @@ open(unit=10, file='data-uvindex.csv', status='old', iostat=io) !i gave the file
         print *, "Error: Could not open the file! Check the name."
         stop
     end if
+    read(10, *) header
 !if statement to ensure that the code dose not crash when they dont see the file 
-do
-    read(10, *, iostat=io) time, uv
-    if (io /= 0) exit
+   do
+        read(10, *, iostat=io) time, uv
+        ! If 'io' is not 0, it means there is no more lines
+        ! "exit" jumps us out of the loop 
+        if (io /= 0) exit 
+            print *," Finished reading data file"
 !if statments for the value from the file for the advice after reading the file  
 if (uv <= 2) then
             risk = "Low"
@@ -43,7 +48,11 @@ if (uv <= 2) then
         else
             risk = "Extreme"
             advice = "UV is very high ! Avoid direct sunlight, wear sunscreen and hat, its better you stya inside!"
-        end if
+end if
+ print *, "Time: ", (time), " | UV: ", uv, " | Advice: ", (advice)
+ end do
+ close(10)
+  print *, "End of program. Stay safe!"
 end program Uvindexunit2code
 
 
