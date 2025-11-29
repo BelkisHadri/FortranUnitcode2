@@ -3,9 +3,10 @@ program Uvindexunit2code
     implicit none
 !Define all my variables that I would need for my code
     integer :: uv, io
-    character(len=20) :: time
-    character(len=20) :: risk, advice
-!the &, is because the lines that were printed were too long. 
+    character(len=20) :: time, risk
+    character(len=100)advice
+  !welcome message to what the code is  
+!the &, is because the lines that were printed were too long 
     print *, "Welcome to the UV helper. I will help you know the UV index for the times of the day,", &
     "and give you advice on what to do with it!"
     print *, ""
@@ -15,7 +16,17 @@ program Uvindexunit2code
      "which can cause sunburn and skin damage."
     print *, ""
     print *, "Here is the start of the times:"
-
+!opening the file 
+open(unit=10, file='data-uvindex.csv', status='old', iostat=io) !i gave the file a nicknameto make it easier
+    ! Check for if the file opens correctly to ensure no crash
+    if (io /= 0) then
+        print *, "Error: Could not open the file! Check the name."
+        stop
+    end if
+!if statement to ensure that the code dose not crash when they dont see the file 
+do
+    read(10, *, iostat=io) time, uv
+    if (io /= 0) exit
 !if statments for the value from the file for the advice after reading the file  
 if (uv <= 2) then
             risk = "Low"
@@ -31,7 +42,7 @@ if (uv <= 2) then
             advice = "Very High! Avoid direct sun, wear protective gear."
         else
             risk = "Extreme"
-            advice = "UV is very high ! Avoid direct sunlight, wear sunscreen and hat."
+            advice = "UV is very high ! Avoid direct sunlight, wear sunscreen and hat, its better you stya inside!"
         end if
 end program Uvindexunit2code
 
